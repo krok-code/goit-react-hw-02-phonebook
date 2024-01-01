@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { GlobalStyle } from 'GlobalStyle';
 import { Section } from './Section/Section';
 import { Container } from './App.styled';
-import { ContactForm } from './ContactForm/ContactForm';
+import { Phonebook } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './ContactFilter/ContactFilter';
 
@@ -19,29 +19,24 @@ export class App extends Component {
   };
 
   addContact = (name, number) => {
+    const { contacts } = this.state;
     const contact = {
       id: nanoid(),
       name,
       number,
     };
 
-    if (
-      this.state.contacts.find(
-        contact => contact.name.toLocaleLowerCase() === name.toLowerCase()
-      )
-    ) {
+    const checkName = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (checkName) {
       alert(`you already have ${name} in your contacts`);
       return;
     }
 
     this.setState(({ contacts }) => ({
       contacts: [contact, ...contacts],
-    }));
-  };
-
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
 
@@ -56,6 +51,12 @@ export class App extends Component {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
+  };
+
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
   render() {
