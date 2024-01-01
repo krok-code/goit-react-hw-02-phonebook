@@ -1,17 +1,21 @@
 import styled from 'styled-components';
 
-export const ListItem = styled.li`
+export const List = styled.ul`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  transition: 0.5s;
-  &:hover {
-    background-color: #d9dae0;
-  }
+  padding: 0;
+  margin: 0;
+`;
+
+export const ListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 `;
 
 export const ItemWrapper = styled.div`
