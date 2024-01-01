@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { GlobalStyle } from 'GlobalStyle';
+import { GlobalStyle } from './GlobalStyle';
 import { Section } from './Section/Section';
 import { Container } from './App.styled';
 import { Phonebook } from './ContactForm/ContactForm';
@@ -31,21 +31,19 @@ export class App extends Component {
     );
 
     if (checkName) {
-      alert(`you already have ${name} in your contacts`);
+      alert(`${name} is already in contacts`);
       return;
     }
 
-    this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
+    this.setState(({ contacts }) => ({ contacts: [contact, ...contacts] }));
   };
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
-  getVisibleContacts = () => {
-    const { contacts, filter } = this.state;
+  getFilteredContacts = () => {
+    const { filter, contacts } = this.state;
     const normalizedFilter = filter.toLowerCase();
 
     return contacts.filter(contact =>
@@ -60,17 +58,18 @@ export class App extends Component {
   };
 
   render() {
+    const filteredContacts = this.getFilteredContacts();
     return (
       <Container>
-        <Section title="Phone book">
-          <ContactForm onSubmit={this.addContact} />
-        </Section>
         <GlobalStyle />
+        <Section title="Phonebook">
+          <Phonebook onSubmit={this.addContact} />
+        </Section>
         <Section title="Contacts">
-          <Filter value={this.state.filter} onChange={this.changeFilter} />
+          <Filter value={this.filter} onChange={this.changeFilter} />
           <ContactList
-            contacts={this.getVisibleContacts()}
-            deleteContact={this.deleteContact}
+            contacts={filteredContacts}
+            onDeleteContact={this.deleteContact}
           />
         </Section>
       </Container>
