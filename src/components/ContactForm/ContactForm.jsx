@@ -20,11 +20,19 @@ function ContactForm({ addContact, contacts }) {
       return;
     }
 
-    const existingContact = contacts.find(
+    const existingContactByName = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-    if (existingContact) {
+    if (existingContactByName) {
       alert('Contact with this name already exists!');
+      return;
+    }
+
+    const existingContactByNumber = contacts.find(
+      contact => contact.number === number.trim()
+    );
+    if (existingContactByNumber) {
+      alert('Contact with this number already exists!');
       return;
     }
 
