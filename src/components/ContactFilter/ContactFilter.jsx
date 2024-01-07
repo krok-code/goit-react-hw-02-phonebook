@@ -1,15 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Label, Input } from './ContactFilter.styled';
+import { Input } from './ContactFilter.styled';
 
-export const Filter = ({ value, onChange }) => (
-  <label>
-    Find contact by name
-    <input type="text" value={value} onChange={onChange} />
-  </label>
-);
+function ContactFilter({ filter, setFilter }) {
+  const handleFilterChange = event => {
+    setFilter(event.target.value);
+  };
 
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-};
+  return (
+    <Input
+      type="text"
+      name="filter"
+      placeholder="Search by name"
+      value={filter}
+      onChange={handleFilterChange}
+    />
+  );
+}
+
+export default ContactFilter;
