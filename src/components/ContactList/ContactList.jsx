@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaIconName } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { List, ListItem, ItemWrapper, Button } from './ContactList.styled';
 
@@ -12,7 +12,7 @@ export const ContactList = ({ contacts, onDeleteContact }) => (
           <p>{number}</p>
         </ItemWrapper>
         <Button type="button" onClick={() => onDeleteContact(id)}>
-          <FaIconName />
+          <FaUser />
         </Button>
       </ListItem>
     ))}
