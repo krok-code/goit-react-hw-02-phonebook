@@ -1,31 +1,42 @@
-import React from 'react';
-import { FaUser } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import { List, ListItem, ItemWrapper, Button } from './ContactList.styled';
+import {
+  ContactItems,
+  ContactName,
+  ContactNumber,
+  Button,
+} from './ContactList.styled';
 
-export const ContactList = ({ contacts, onDeleteContact }) => (
-  <List>
-    {contacts.map(({ id, name, number }) => (
-      <ListItem key={id}>
-        <ItemWrapper>
-          <p>{name}: </p>
-          <p>{number}</p>
-        </ItemWrapper>
-        <Button type="button" onClick={() => onDeleteContact(id)}>
-          <FaUser />
-        </Button>
-      </ListItem>
-    ))}
-  </List>
-);
+function ContactList({ contacts, deleteContact }) {
+  return (
+    <ul>
+      {contacts.map(contact => (
+        <ContactItem
+          key={contact.id}
+          contact={contact}
+          deleteContact={deleteContact}
+        />
+      ))}
+    </ul>
+  );
+}
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  onDeleteContact: PropTypes.func.isRequired,
+function ContactItem({ contact, deleteContact }) {
+  const handleDelete = () => {
+    deleteContact(contact.id);
+  };
+
+  return (
+    <ContactItems>
+      <ContactName>{contact.name}</ContactName>
+      <ContactNumber>{contact.number}</ContactNumber>
+      <Button onClick={handleDelete}>Delete</Button>
+    </ContactItems>
+  );
+}
+
+ContactItem.propTypes = {
+  contact: PropTypes.object.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
+
+export default ContactList;
