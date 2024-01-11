@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ContactItems,
@@ -6,32 +7,46 @@ import {
   Button,
 } from './ContactList.styled';
 
-function ContactList({ contacts, deleteContact }) {
-  return (
-    <ul>
-      {contacts.map(contact => (
-        <ContactItem
-          key={contact.id}
-          contact={contact}
-          deleteContact={deleteContact}
-        />
-      ))}
-    </ul>
-  );
+class ContactList extends Component {
+  render() {
+    const { contacts, deleteContact } = this.props;
+
+    return (
+      <ul>
+        {contacts.map(contact => (
+          <ContactItem
+            key={contact.id}
+            contact={contact}
+            deleteContact={deleteContact}
+          />
+        ))}
+      </ul>
+    );
+  }
 }
 
-function ContactItem({ contact, deleteContact }) {
-  const handleDelete = () => {
-    deleteContact(contact.id);
-  };
+class ContactItem extends Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
 
-  return (
-    <ContactItems>
-      <ContactName>{contact.name}</ContactName>
-      <ContactNumber>{contact.number}</ContactNumber>
-      <Button onClick={handleDelete}>Delete</Button>
-    </ContactItems>
-  );
+  handleDelete() {
+    const { deleteContact, contact } = this.props;
+    deleteContact(contact.id);
+  }
+
+  render() {
+    const { contact } = this.props;
+
+    return (
+      <ContactItems>
+        <ContactName>{contact.name}</ContactName>
+        <ContactNumber>{contact.number}</ContactNumber>
+        <Button onClick={this.handleDelete}>Delete</Button>
+      </ContactItems>
+    );
+  }
 }
 
 ContactItem.propTypes = {

@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Form, Input, Button, Text } from './ContactForm.styled';
 
-function ContactForm({ addContact, contacts }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+class ContactForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      number: '',
+    };
 
-  const handleNameChange = event => {
-    setName(event.target.value);
-  };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleNumberChange = this.handleNumberChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  const handleNumberChange = event => {
-    setNumber(event.target.value);
-  };
+  handleNameChange(event) {
+    this.setState({ name: event.target.value });
+  }
 
-  const handleSubmit = event => {
+  handleNumberChange(event) {
+    this.setState({ number: event.target.value });
+  }
+
+  handleSubmit(event) {
     event.preventDefault();
+    const { name, number } = this.state;
+    const { addContact, contacts } = this.props;
+
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
@@ -23,6 +35,7 @@ function ContactForm({ addContact, contacts }) {
     const existingContactByName = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+
     if (existingContactByName) {
       alert('Contact with this name already exists!');
       return;
@@ -31,6 +44,7 @@ function ContactForm({ addContact, contacts }) {
     const existingContactByNumber = contacts.find(
       contact => contact.number === number.trim()
     );
+
     if (existingContactByNumber) {
       alert('Contact with this number already exists!');
       return;
@@ -41,36 +55,34 @@ function ContactForm({ addContact, contacts }) {
       name: name.trim(),
       number: number.trim(),
     };
-    addContact(newContact);
-    setName('');
-    setNumber('');
-  };
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Text>Name</Text>
-      <Input
-        type="text"
-        name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
-        value={name}
-        onChange={handleNameChange}
-      />
-      <Text>Number</Text>
-      <Input
-        type="tel"
-        name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        required
-        value={number}
-        onChange={handleNumberChange}
-      />
-      <Button type="submit">Add Contact</Button>
-    </Form>
-  );
+    addContact(newContact);
+    this.setState({ name: '', number: '' });
+  }
+
+  render() {
+    const { name, number } = this.state;
+
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Text>Name</Text>
+        <Input
+          type="text"
+          name="name"
+          value={name}
+          onChange={this.handleNameChange}
+        />
+        <Text>Number</Text>
+        <Input
+          type="tel"
+          name="number"
+          value={number}
+          onChange={this.handleNumberChange}
+        />
+        <Button type="submit">Add Contact</Button>
+      </Form>
+    );
+  }
 }
 
 export default ContactForm;

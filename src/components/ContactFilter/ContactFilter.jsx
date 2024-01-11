@@ -1,19 +1,29 @@
+import React, { Component } from 'react';
 import { Input } from './ContactFilter.styled';
 
-function ContactFilter({ filter, setFilter }) {
-  const handleFilterChange = event => {
-    setFilter(event.target.value);
-  };
+class ContactFilter extends Component {
+  constructor(props) {
+    super(props);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+  }
 
-  return (
-    <Input
-      type="text"
-      name="filter"
-      placeholder="Search by name"
-      value={filter}
-      onChange={handleFilterChange}
-    />
-  );
+  handleFilterChange(event) {
+    this.props.setFilter(event.target.value);
+  }
+
+  render() {
+    const { filter } = this.props;
+
+    return (
+      <Input
+        type="text"
+        name="filter"
+        placeholder="Search by name"
+        value={filter}
+        onChange={this.handleFilterChange}
+      />
+    );
+  }
 }
 
 export default ContactFilter;
