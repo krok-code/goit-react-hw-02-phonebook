@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Input } from './ContactFilter.styled';
 
 class ContactFilter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: this.props.filter || '',
-    };
-  }
-
   handleFilterChange = event => {
-    this.setState({ filter: event.target.value });
+    const { setFilter } = this.props;
+    setFilter(event.target.value);
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter } = this.props;
 
     return (
       <Input
@@ -27,5 +22,10 @@ class ContactFilter extends Component {
     );
   }
 }
+
+ContactFilter.propTypes = {
+  filter: PropTypes.string.isRequired,
+  setFilter: PropTypes.func.isRequired,
+};
 
 export default ContactFilter;
