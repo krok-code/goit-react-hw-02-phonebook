@@ -9,21 +9,17 @@ class ContactForm extends Component {
       name: '',
       number: '',
     };
-
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleNumberChange = this.handleNumberChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleNameChange(event) {
+  handleNameChange = event => {
     this.setState({ name: event.target.value });
-  }
+  };
 
-  handleNumberChange(event) {
+  handleNumberChange = event => {
     this.setState({ number: event.target.value });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     const { name, number } = this.state;
     const { addContact, contacts } = this.props;
@@ -35,7 +31,6 @@ class ContactForm extends Component {
     const existingContactByName = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-
     if (existingContactByName) {
       alert('Contact with this name already exists!');
       return;
@@ -44,9 +39,8 @@ class ContactForm extends Component {
     const existingContactByNumber = contacts.find(
       contact => contact.number === number.trim()
     );
-
     if (existingContactByNumber) {
-      alert('Contact with this number already exists!');
+      alert('Contact with this name already exists!');
       return;
     }
 
@@ -55,10 +49,9 @@ class ContactForm extends Component {
       name: name.trim(),
       number: number.trim(),
     };
-
     addContact(newContact);
     this.setState({ name: '', number: '' });
-  }
+  };
 
   render() {
     const { name, number } = this.state;
@@ -69,6 +62,9 @@ class ContactForm extends Component {
         <Input
           type="text"
           name="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
           value={name}
           onChange={this.handleNameChange}
         />
@@ -76,6 +72,9 @@ class ContactForm extends Component {
         <Input
           type="tel"
           name="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
           value={number}
           onChange={this.handleNumberChange}
         />
@@ -84,5 +83,4 @@ class ContactForm extends Component {
     );
   }
 }
-
 export default ContactForm;

@@ -26,15 +26,10 @@ class ContactList extends Component {
 }
 
 class ContactItem extends Component {
-  constructor(props) {
-    super(props);
-    this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  handleDelete() {
-    const { deleteContact, contact } = this.props;
+  handleDelete = () => {
+    const { contact, deleteContact } = this.props;
     deleteContact(contact.id);
-  }
+  };
 
   render() {
     const { contact } = this.props;

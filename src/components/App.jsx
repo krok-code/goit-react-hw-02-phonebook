@@ -15,45 +15,27 @@ class App extends Component {
         { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
       ],
       filter: '',
-      name: '',
-      number: '',
     };
-
-    this.addContact = this.addContact.bind(this);
-    this.deleteContact = this.deleteContact.bind(this);
-    this.setFilter = this.setFilter.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleNumberChange = this.handleNumberChange.bind(this);
   }
 
-  addContact(newContact) {
+  addContact = newContact => {
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
-      name: '',
-      number: '',
     }));
-  }
+  };
 
-  deleteContact(id) {
+  deleteContact = id => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
-  }
+  };
 
-  setFilter(filter) {
+  handleFilterChange = filter => {
     this.setState({ filter });
-  }
-
-  handleNameChange(event) {
-    this.setState({ name: event.target.value });
-  }
-
-  handleNumberChange(event) {
-    this.setState({ number: event.target.value });
-  }
+  };
 
   render() {
-    const { contacts, filter, name, number } = this.state;
+    const { contacts, filter } = this.state;
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
@@ -61,15 +43,9 @@ class App extends Component {
     return (
       <Container>
         <Title>Phonebook📱</Title>
-        <ContactForm
-          addContact={this.addContact}
-          name={name}
-          number={number}
-          handleNameChange={this.handleNameChange}
-          handleNumberChange={this.handleNumberChange}
-        />
+        <ContactForm addContact={this.addContact} contacts={contacts} />
         <Heading>Contacts</Heading>
-        <ContactFilter filter={filter} setFilter={this.setFilter} />
+        <ContactFilter filter={filter} setFilter={this.handleFilterChange} />
         <ContactList
           contacts={filteredContacts}
           deleteContact={this.deleteContact}

@@ -4,15 +4,17 @@ import { Input } from './ContactFilter.styled';
 class ContactFilter extends Component {
   constructor(props) {
     super(props);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.state = {
+      filter: this.props.filter || '',
+    };
   }
 
-  handleFilterChange(event) {
-    this.props.setFilter(event.target.value);
-  }
+  handleFilterChange = event => {
+    this.setState({ filter: event.target.value });
+  };
 
   render() {
-    const { filter } = this.props;
+    const { filter } = this.state;
 
     return (
       <Input
